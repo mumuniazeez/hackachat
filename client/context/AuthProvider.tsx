@@ -29,6 +29,7 @@ export default function AuthProvider({
 
   useEffect(() => {
     const load = async () => {
+      console.log("test");
       const data = localStorage.getItem("userData");
       if (!data) router.push("/auth");
       else {

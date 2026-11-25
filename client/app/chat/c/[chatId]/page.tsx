@@ -10,5 +10,9 @@ export default function ChatPage() {
   useEffect(() => {
     getMessages(String(chatId));
   }, [chatId, getMessages]);
-  return <div>Hello {chatId}</div>;
+  return (
+    <div className="flex flex-col h-full">
+      <div className="flex-1 min-h-0 overflow-y-auto"></div>
+    </div>
+  );
 }

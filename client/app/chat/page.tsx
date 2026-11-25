@@ -1,13 +1,14 @@
 "use client";
-import { Input } from "@/components/ui/input";
+import MessageCard from "@/components/chat/MessageCard";
+import PromptInput from "@/components/chat/PromptInput";
 import {
-  SendHorizontal,
   Code2Icon,
   BookOpenIcon,
   RocketIcon,
   Lightbulb,
   Cpu,
 } from "lucide-react";
+import { useState } from "react";
 
 export default function Page() {
   const topicSuggestions = [
@@ -47,10 +48,16 @@ export default function Page() {
         "How does an operating system kernel actually switch between running processess on CPU?",
     },
   ];
+
+  const [promptInputValue, setPromptInputValue] = useState("");
+
+  const handleSend = () => {
+    console.log(promptInputValue);
+  };
   return (
     <div className="flex flex-col h-full">
       <div className="flex-1 min-h-0 overflow-y-auto">
-        <div className="flex justify-center items-center">
+        {/* <div className="flex justify-center items-center">
           <div className="p-10 px-30">
             <p className="p-1 border w-[140px] text-[10px] text-center">
               HACK CLUB THIRD SPACE
@@ -78,28 +85,23 @@ export default function Page() {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
+        <MessageCard
+          message={{
+            chatId: "some",
+            content: [{ type: "text", text: "Hello" }],
+            role: "user",
+            createdAt: 23293,
+            id: "32",
+          }}
+        />
       </div>
-      <div className="shrink-0 flex p-3 border-t border-border flex-col justify-center items-center px-20">
-        <div className="border-zinc-400 border w-full rounded-md">
-          <Input
-            type="text"
-            placeholder="Message Hackachat.. (Enter to Send)"
-            className="border-0 m-0 rounded-0 shadow-none rounded-none"
-          />
-          {/* <textarea
-            className="w-full h-5 border-0"
-            placeholder="Message Hackachat.. (Enter to Send)"
-            draggable="false"
-          /> */}
-          <div className="flex justify-between items-center p-2 border-t">
-            <p className="text-xs">Enter</p>
-            <div className="bg-black text-white rounded-sm p-1 px-2">
-              <SendHorizontal size={15} />
-            </div>
-          </div>
-        </div>
-      </div>
+
+      <PromptInput
+        promptInputValue={promptInputValue}
+        setPromptInputValue={setPromptInputValue}
+        onSend={handleSend}
+      />
     </div>
   );
 }
