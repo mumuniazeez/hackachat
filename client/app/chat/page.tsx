@@ -1,6 +1,7 @@
 "use client";
 import MessageCard from "@/components/chat/MessageCard";
 import PromptInput from "@/components/chat/PromptInput";
+import { StoredMessage } from "@/lib/db";
 import {
   Code2Icon,
   BookOpenIcon,
@@ -49,10 +50,23 @@ export default function Page() {
     },
   ];
 
+  const [messages, setMessages] = useState<StoredMessage[]>([]);
+  const [sending, setSending] = useState(false);
+
   const [promptInputValue, setPromptInputValue] = useState("");
 
   const handleSend = () => {
-    console.log(promptInputValue);
+    setMessages((prev) => [
+      ...prev,
+      {
+        chatId: "0",
+        content: [{ type: "text", text: promptInputValue }],
+        role: "user",
+        createdAt: Date.now(),
+        id: `${prev.length + 1}`,
+      },
+    ]);
+    setPromptInputValue("");
   };
   return (
     <div className="flex flex-col h-full">
@@ -86,15 +100,9 @@ export default function Page() {
             </div>
           </div>
         </div> */}
-        <MessageCard
-          message={{
-            chatId: "some",
-            content: [{ type: "text", text: "Hello" }],
-            role: "user",
-            createdAt: 23293,
-            id: "32",
-          }}
-        />
+        {messages.map((message) => (
+          <MessageCard key={message.id} message={message} />
+        ))}
       </div>
 
       <PromptInput

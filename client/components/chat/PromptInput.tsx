@@ -1,16 +1,18 @@
 import React from "react";
 import { Input } from "../ui/input";
-import { SendHorizontal } from "lucide-react";
+import { SendHorizontal, StopCircle } from "lucide-react";
 import { Button } from "../ui/button";
 
 export default function PromptInput({
   promptInputValue,
   setPromptInputValue,
   onSend,
+  sending,
 }: {
   promptInputValue: string;
   setPromptInputValue: (value: string) => void;
   onSend: () => void;
+  sending: boolean;
 }) {
   return (
     <div className="shrink-0 flex p-3 border-t border-border flex-col justify-center items-center px-20">
@@ -36,9 +38,15 @@ export default function PromptInput({
           /> */}
         <div className="flex justify-between items-center p-2 border-t">
           <p className="text-xs">Enter</p>
-          <Button type="submit">
-            <SendHorizontal size={15} />
-          </Button>
+          {!sending ? (
+            <Button type="submit">
+              <SendHorizontal size={15} />
+            </Button>
+          ) : (
+            <Button type="submit" variant={"destructive"}>
+              <StopCircle size={15} /> Stop
+            </Button>
+          )}
         </div>
       </form>
     </div>
