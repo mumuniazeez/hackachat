@@ -53,7 +53,9 @@ class ChatResponseUsageDto {
 }
 
 export class MessageContentTextResponseDto {
+  @ApiProperty({ default: 'text' })
   type!: 'text';
+  @ApiProperty()
   text!: string;
 }
 

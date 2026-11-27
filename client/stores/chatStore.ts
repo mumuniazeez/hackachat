@@ -5,7 +5,7 @@ interface ChatStore {
   chats: StoredChat[];
   messages: StoredMessage[];
   listChats(): Promise<StoredChat[]>;
-  createChat(): Promise<void>;
+  createChat(): Promise<StoredChat>;
   renameChat(id: string, title: string): Promise<void>;
   deleteChat(id: string): Promise<void>;
   getMessages(chatId: string): Promise<StoredMessage[]>;
@@ -34,6 +34,7 @@ export const useChatStore = create<ChatStore>()((set, get) => ({
     };
     await db.chats.add(chat);
     set((state) => ({ chats: [...state.chats, chat] }));
+    return chat;
   },
   renameChat: async (id, title) => {
     await db.chats.update(id, { title });

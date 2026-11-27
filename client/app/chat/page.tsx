@@ -14,6 +14,8 @@ import { useState } from "react";
 import * as api from "@/lib/api";
 import { useModelStore } from "@/stores/modelStore";
 import { useAuthContext } from "@/context/AuthProvider";
+import { useChatStore } from "@/stores/chatStore";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const topicSuggestions = [
@@ -55,10 +57,12 @@ export default function Page() {
   ];
 
   const { activeModel } = useModelStore();
+  const { createChat, addMessage } = useChatStore();
   const { user } = useAuthContext();
 
   const [messages, setMessages] = useState<StoredMessage[]>([]);
   const [sending, setSending] = useState(false);
+  const router = useRouter();
 
   const [promptInputValue, setPromptInputValue] = useState("");
 
@@ -94,8 +98,20 @@ export default function Page() {
       },
     });
     console.log(res);
-    if (res.error) {
+    if (res.error || !res.data) {
       // handle error
+    } else {
+      const chat = await createChat();
+      await addMessage(chat.id, {
+        role: "user",
+        content: [{ type: "text", text: promptInputValue }],
+      });
+      await addMessage(chat.id, {
+        role: res.data.response.role as "user" | "assistant",
+        content: [{ type: "text", text: res.data.response.content.text }],
+      });
+
+      router.push(`/chats/c/${chat.id}`);
     }
     setSending(false);
   };

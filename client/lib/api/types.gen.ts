@@ -93,7 +93,8 @@ export type ChatResponseUsageDto = {
 };
 
 export type MessageContentTextResponseDto = {
-    [key: string]: unknown;
+    type: string;
+    text: string;
 };
 
 export type ChatResponseObjectDto = {
