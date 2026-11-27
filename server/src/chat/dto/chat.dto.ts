@@ -112,11 +112,13 @@ export class MessageDto {
       property: 'type',
       subTypes: [
         { name: 'text', value: MessageContentTextDto },
-        { name: 'file', value: MessageContentTextDto },
+        { name: 'file', value: MessageContentImageDto },
       ],
     },
     keepDiscriminatorProperty: true,
   })
+  @IsArray()
+  @ValidateNested({ each: true })
   content!: (MessageContentImageDto | MessageContentTextDto)[];
 }
 

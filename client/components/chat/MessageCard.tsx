@@ -2,7 +2,7 @@ import { StoredMessage } from "@/lib/db";
 import React from "react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { Copy } from "lucide-react";
+import { Copy, Pen } from "lucide-react";
 import Image from "next/image";
 
 export default function MessageCard({ message }: { message: StoredMessage }) {
@@ -12,9 +12,14 @@ export default function MessageCard({ message }: { message: StoredMessage }) {
         <Badge variant={message.role === "user" ? "secondary" : "default"}>
           {message.role === "user" ? "You" : "Hackachat"}
         </Badge>
-        <Button variant={"ghost"}>
-          <Copy /> Copy
-        </Button>
+        <div>
+          <Button variant={"ghost"}>
+            <Copy /> Copy
+          </Button>
+          <Button variant={"ghost"}>
+            <Pen /> Edit
+          </Button>
+        </div>
       </div>
       {message.content.map((part, idx) =>
         part.type === "text" ? (

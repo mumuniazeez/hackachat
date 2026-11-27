@@ -11,6 +11,9 @@ import {
   Cpu,
 } from "lucide-react";
 import { useState } from "react";
+import * as api from "@/lib/api";
+import { useModelStore } from "@/stores/modelStore";
+import { useAuthContext } from "@/context/AuthProvider";
 
 export default function Page() {
   const topicSuggestions = [
@@ -51,12 +54,17 @@ export default function Page() {
     },
   ];
 
+  const { activeModel } = useModelStore();
+  const { user } = useAuthContext();
+
   const [messages, setMessages] = useState<StoredMessage[]>([]);
   const [sending, setSending] = useState(false);
 
   const [promptInputValue, setPromptInputValue] = useState("");
 
-  const handleSend = () => {
+  const handleSend = async () => {
+    if (!activeModel) return alert("Please selected a model");
+    console.log(promptInputValue);
     setMessages((prev) => [
       ...prev,
       {
@@ -69,6 +77,27 @@ export default function Page() {
     ]);
     setPromptInputValue("");
     setSending(true);
+    console.log(messages);
+
+    const res = await api.chat.chatControllerSendMessage({
+      auth: user?.access_token,
+      body: {
+        messages: [
+          { role: "user", content: [{ type: "text", text: promptInputValue }] },
+        ],
+        modelConfig: {
+          modelName: activeModel.id,
+          responseDetailLevel: "balanced",
+          temperatureOrCreativity: 0.5,
+        },
+        userData: { customInstruction: "", userIdentify: user?.name || "User" },
+      },
+    });
+    console.log(res);
+    if (res.error) {
+      // handle error
+    }
+    setSending(false);
   };
 
   return (

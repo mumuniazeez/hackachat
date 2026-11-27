@@ -31,6 +31,7 @@ export class ChatService {
   }
 
   async sendMessage(sendMessageDto: SendMessageDto): Promise<ChatResponseDto> {
+    console.log(sendMessageDto);
     const res = await generateText({
       instructions: [this.aiService.getSystemPrompt(sendMessageDto.userData)],
 
