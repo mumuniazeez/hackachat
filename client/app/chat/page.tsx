@@ -1,6 +1,7 @@
 "use client";
 import MessageCard from "@/components/chat/MessageCard";
 import PromptInput from "@/components/chat/PromptInput";
+import Sending from "@/components/chat/Sending";
 import { StoredMessage } from "@/lib/db";
 import {
   Code2Icon,
@@ -67,7 +68,9 @@ export default function Page() {
       },
     ]);
     setPromptInputValue("");
+    setSending(true);
   };
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex-1 min-h-0 overflow-y-auto">
@@ -103,9 +106,11 @@ export default function Page() {
         {messages.map((message) => (
           <MessageCard key={message.id} message={message} />
         ))}
+        {sending && <Sending />}
       </div>
 
       <PromptInput
+        sending={sending}
         promptInputValue={promptInputValue}
         setPromptInputValue={setPromptInputValue}
         onSend={handleSend}

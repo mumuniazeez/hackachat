@@ -10,7 +10,7 @@ export default function MessageCard({ message }: { message: StoredMessage }) {
     <div className="border-y py-10 px-20 space-y-5">
       <div className="flex items-center justify-between">
         <Badge variant={message.role === "user" ? "secondary" : "default"}>
-          {message.role === "user" ? "User" : "Assistant"}
+          {message.role === "user" ? "You" : "Hackachat"}
         </Badge>
         <Button variant={"ghost"}>
           <Copy /> Copy

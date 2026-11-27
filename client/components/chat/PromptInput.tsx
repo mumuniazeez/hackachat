@@ -20,7 +20,7 @@ export default function PromptInput({
         className="border-zinc-400 border w-full rounded-md"
         onSubmit={(e) => {
           e.preventDefault();
-          onSend();
+          if (!sending) onSend();
         }}
       >
         <Input
