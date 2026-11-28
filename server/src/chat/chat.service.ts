@@ -35,7 +35,13 @@ export class ChatService {
     const res = await generateText({
       instructions: [this.aiService.getSystemPrompt(sendMessageDto.userData)],
 
-      model: this.aiService.hackclubAI(sendMessageDto.modelConfig.modelName),
+      // sendMessageDto.modelConfig.modelName
+      model: this.aiService.hackclubAI('nvidia/nemotron-3.5-super-vl:free', {
+        models: [
+          'meta-llama/llama-3.3-70b-instruct:free',
+          'deepseek/deepseek-chat-v3.1:free',
+        ],
+      }),
       temperature: sendMessageDto.modelConfig.temperatureOrCreativity,
       messages: sendMessageDto.messages.map((message) => ({
         role: message.role,
