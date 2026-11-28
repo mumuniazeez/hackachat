@@ -111,7 +111,7 @@ export default function Page() {
         content: [{ type: "text", text: res.data.response.content.text }],
       });
 
-      router.push(`/chats/c/${chat.id}`);
+      router.push(`/chat/c/${chat.id}`);
     }
     setSending(false);
   };

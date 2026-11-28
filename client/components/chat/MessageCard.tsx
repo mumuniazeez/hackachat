@@ -2,8 +2,15 @@ import { StoredMessage } from "@/lib/db";
 import React from "react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { Copy, Pen } from "lucide-react";
+import { Copy, Pen, RefreshCcw } from "lucide-react";
 import Image from "next/image";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeHighlihg from "rehype-highlight";
+
+import "highlight.js/styles/github-dark.css";
+import CodeBlock from "./CodeBlock";
 
 export default function MessageCard({ message }: { message: StoredMessage }) {
   return (
@@ -16,14 +23,30 @@ export default function MessageCard({ message }: { message: StoredMessage }) {
           <Button variant={"ghost"}>
             <Copy /> Copy
           </Button>
-          <Button variant={"ghost"}>
-            <Pen /> Edit
-          </Button>
+          {message.role === "user" ? (
+            <Button variant={"ghost"}>
+              <Pen /> Edit
+            </Button>
+          ) : (
+            <Button variant={"ghost"}>
+              <RefreshCcw /> Retry
+            </Button>
+          )}
         </div>
       </div>
       {message.content.map((part, idx) =>
         part.type === "text" ? (
-          <p key={idx}>{part.text}</p>
+          <ReactMarkdown
+            key={idx}
+            remarkPlugins={[
+              remarkGfm,
+              [remarkMath, { singleDollarTextMath: false }],
+            ]}
+            rehypePlugins={[rehypeHighlihg]}
+            components={{ pre: CodeBlock }}
+          >
+            {part.text}
+          </ReactMarkdown>
         ) : (
           <Image key={idx} src={part.data} alt="Chat images" />
         ),
