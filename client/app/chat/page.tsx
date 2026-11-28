@@ -57,7 +57,7 @@ export default function Page() {
   ];
 
   const { activeModel } = useModelStore();
-  const { createChat, addMessage } = useChatStore();
+  const { createChat, addMessage, renameChat } = useChatStore();
   const { user } = useAuthContext();
 
   const [messages, setMessages] = useState<StoredMessage[]>([]);
@@ -102,6 +102,7 @@ export default function Page() {
       // handle error
     } else {
       const chat = await createChat();
+      renameChat(chat.id, promptInputValue);
       await addMessage(chat.id, {
         role: "user",
         content: [{ type: "text", text: promptInputValue }],

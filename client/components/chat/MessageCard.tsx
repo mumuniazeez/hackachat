@@ -25,15 +25,6 @@ export default function MessageCard({ message }: { message: StoredMessage }) {
           <Button variant={"ghost"}>
             <Copy /> Copy
           </Button>
-          {message.role === "user" ? (
-            <Button variant={"ghost"}>
-              <Pen /> Edit
-            </Button>
-          ) : (
-            <Button variant={"ghost"}>
-              <RefreshCcw /> Retry
-            </Button>
-          )}
         </div>
       </div>
       {message.content.map((part, idx) =>
