@@ -12,9 +12,13 @@ export default function CodeBlock({ children }: { children?: ReactNode }) {
     setTimeout(() => setCopied(false), 1500);
   }
   return (
-    <div className="code-block">
-      <Button onClick={copy}>{copied ? "Copied" : "Copy"}</Button>
-      <pre ref={preRef}>{children}</pre>
+    <div className="bg-[#0d1117] rounded p-2">
+      <Button onClick={copy} className={"ms-auto"}>
+        {copied ? "Copied" : "Copy"}
+      </Button>
+      <pre ref={preRef} className="rounded-4xl">
+        {children}
+      </pre>
     </div>
   );
 }
